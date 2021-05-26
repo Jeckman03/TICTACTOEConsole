@@ -32,6 +32,10 @@ class MainClass {
 				Console.WriteLine("You have made an invalid selection. Try again");
 			}
 
+			gameBoard = human.TurnChoice(input, gameBoard);
+
+			gameBoard.DisplayGameBoard().PrintToConsole();
+
 			// Check to see if there is a winner
 			//Check to see if there is any open spots left
 
@@ -88,53 +92,76 @@ public static class GameLogic
 public interface Players
 {
 	string Name { get; set; }
-	void TurnChoice();
+	GameBoard TurnChoice(string choice, GameBoard board);
 }
 
 // HumanPlayerClass
-public class HumanPlayer : Players
+public class HumanPlayer : GameBoard, Players
 {
 	public string Name { get; set; }
 
-	public void TurnChoice(string numberChoice, GameBoard board)
+	public GameBoard TurnChoice(string choice, GameBoard board)
 	{
+		for (var i = 0; i < board.squares.Length; i++)
+		{
+			if (choice == board.squares[i])
+			{
+				board.squares[i] = "X";
+			}
+		}
 
+		return board;
 	}
 }
 
 // ComputerPlayerClass
-public class ComputerPlayer : Players
+public class ComputerPlayer : GameBoard, Players
 {
 	public string Name { get; set; }
 
-	public void TurnChoice()
+	public GameBoard TurnChoice(string choice, GameBoard board)
 	{
+		GameBoard output = new GameBoard();
 
+		for (var i = 0; i < board.squares.Length; i++)
+		{
+			if (choice == board.squares[i])
+			{
+				board.squares[i] = "O";
+			}
+		}
+
+		return board;
 	}
 } 
 
 // GameBoardClass
 public class GameBoard 
 {
-	public string one = "1";
-	public string two = "2";
-	public string three = "3";
-	public string four = "4";
-	public string five = "5";
-	public string six = "6";
-	public string seven = "7";
-	public string eight = "8";
-	public string nine = "9";
+	
+	public string[] squares = new string[9]
+	{
+		"1", 
+		"2", 
+		"3",
+		"4", 
+		"5", 
+		"6", 
+		"7",
+		"8",
+		"9"
+	};
 
+	
 
 	public string DisplayGameBoard()
 	{
 		return $@"
-		  { one }  |  { two }  |  { 3 }
+		  { squares[0] }  |  { squares[1] }  |  { squares[2] }
 		_____|_____|_____
-		  { four }  |  { five }  |  { six }
+		  { squares[3] }  |  { squares[4] }  |  { squares[5] }
 		_____|_____|_____
-		  { seven }  |  { eight }  |  { nine }
+		  { squares[6] }  |  { squares[7] }  |  { squares[8] }
 			 |     |";
 	}
 

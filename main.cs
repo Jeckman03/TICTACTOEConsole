@@ -5,7 +5,6 @@ class MainClass {
 
 		// Populate the empty game board
 		GameBoard gameBoard = new GameBoard();
-		gameBoard.DisplayGameBoard().PrintToConsole();
 
 		// Create both players
 		HumanPlayer human = new HumanPlayer();
@@ -14,37 +13,72 @@ class MainClass {
 		computer.Name = "Compuserve";
 
 		bool gameOver = false;
+		string input;
+		bool isValid;
 
 		// While game is still going
 		while (!gameOver)
 		{
-			// Human players turn
-			human.PlayerTurn();
-			string input = Console.ReadLine();
-			bool isValid = GameLogic.IsValidSelection(input);
+			Console.Clear();
 
-			if (isValid)
+			do 
 			{
-				Console.WriteLine("You have made a valid selection");
-			}
-			else
-			{
-				Console.WriteLine("You have made an invalid selection. Try again");
-			}
+				// Display the game board
+				gameBoard.DisplayGameBoard().PrintToConsole();
+
+				// Human players turn
+				human.PlayerTurn();
+				input = Console.ReadLine();
+				isValid = GameLogic.IsValidSelection(input);
+
+				if (isValid)
+				{
+					Console.Clear();
+					Console.WriteLine("You have made a valid selection");
+				}
+				else
+				{
+					Console.Clear();
+					Console.WriteLine("You have made an invalid selection. Try again");
+				}
+			} while(isValid == false);
 
 			gameBoard = human.TurnChoice(input, gameBoard);
+			Console.Clear();
+
+			// Check to see if there is a winner
+			//Check to see if there is any open spots left
+
+			// Computer players turn 
+			do 
+			{
+				// Display the game board
+				gameBoard.DisplayGameBoard().PrintToConsole();
+
+				// Human players turn
+				computer.PlayerTurn();
+				input = Console.ReadLine();
+				isValid = GameLogic.IsValidSelection(input);
+
+				if (isValid)
+				{
+					Console.Clear();
+					Console.WriteLine("You have made a valid selection");
+				}
+				else
+				{
+					Console.Clear();
+					Console.WriteLine("You have made an invalid selection. Try again");
+				}
+			} while(isValid == false);
+
+			gameBoard = computer.TurnChoice(input, gameBoard);
 
 			gameBoard.DisplayGameBoard().PrintToConsole();
 
 			// Check to see if there is a winner
 			//Check to see if there is any open spots left
 
-			// Computer players turn 
-
-			// Check to see if there is a winner
-			//Check to see if there is any open spots left
-
-			Console.ReadLine();
 		}
 			
 
